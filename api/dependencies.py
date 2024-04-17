@@ -37,7 +37,6 @@ def check_env():
         "SECRET_KEY",
         "ALGORITHM",
         "ACCESS_TOKEN_EXPIRE_MINUTES",
-
     ]
     if os.getenv("TEST_MODE") == "True":
         print("\033[92m" + "Running in test mode." + "\033[0m")

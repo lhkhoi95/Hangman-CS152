@@ -1,15 +1,11 @@
-from fastapi import Depends, FastAPI, Request, Response
+from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from fastapi.staticfiles import StaticFiles
-
 from api.routers import games
-from api.utils import delete_orphaned_audio_files
 from .models import models
 from .database import get_db_session
-from .routers import users, word_lists
 from .dependencies import check_env
-import os
+
 
 load_dotenv()
 check_env()
@@ -18,11 +14,7 @@ SessionLocal, engine = get_db_session()
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-# Create audio directory if it doesn't exist
-if not os.path.exists("audio"):
-    os.makedirs("audio")
-app.mount("/audio", StaticFiles(directory="audio"), name="audio")
-app.include_router(word_lists.router)
+
 app.include_router(games.router)
 
 
@@ -33,11 +25,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.on_event("startup")
-async def startup_event():
-    delete_orphaned_audio_files.delete_orphaned_audio_files()
 
 
 @app.middleware("http")
