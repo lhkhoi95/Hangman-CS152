@@ -31,7 +31,7 @@ def google_gemini_client(model='gemini-pro'):
 
 def check_env():
     env_vars = [
-        "SPELLTRAIN2_DATABASE_URL",
+        "HANGMAN_DB_URL",
         "OPENAI_API_KEY",
         "GOOGLE_GEMINI_API_KEY",
         "SECRET_KEY",

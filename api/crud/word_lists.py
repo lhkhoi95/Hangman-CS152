@@ -3,7 +3,7 @@ from fastapi import HTTPException
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
-from api.utils.SpellTrainII_AI import SpellTrain2AI
+from api.utils.HangManAI import HangManAI
 from api.models import models
 from api.schemas import schemas
 from api.utils.helpers import delete_audio_file, get_audio_url, word_dict
@@ -51,8 +51,8 @@ def get_word_list_by_title(db: Session, title: str):
 def create_generative_word_list(db: Session, topic: str, user_id: int):
     try:
         # Try to fetch a list of words from the AI
-        spelltrain2AI = SpellTrain2AI()
-        word_list = spelltrain2AI.get_word_list(topic=topic)
+        hangmanAI = HangManAI()
+        word_list = hangmanAI.get_word_list(topic=topic)
 
         # Create a new word list
         db_word_list = models.WordList(title=topic, ownerId=user_id)
@@ -72,7 +72,8 @@ def create_generative_word_list(db: Session, topic: str, user_id: int):
 
     except IntegrityError:
         db.rollback()
-        raise HTTPException(status_code=400, detail="Integrity Error")
+        raise HTTPException(
+            status_code=500, detail="Failed to create word list")
 
     return db_word_list
 
@@ -134,7 +135,7 @@ def create_custom_word_list(db: Session, topic: str, user_id: int, words: List[s
 
 def get_more_words(db: Session, word_list_id: int):
     existing_words = []
-    spelltrain2AI = SpellTrain2AI()
+    hangmanAI = HangManAI()
 
     # Get the topic of the word list
     db_word_list = get_word_list_by_id(db, word_list_id)
@@ -145,7 +146,7 @@ def get_more_words(db: Session, word_list_id: int):
         existing_words.append(word.word)
 
     # Get additional words from AI
-    additional_word_list = spelltrain2AI.get_word_list(
+    additional_word_list = hangmanAI.get_word_list(
         topic=topic, existing_words=existing_words)
 
     # Add more words to db
@@ -192,12 +193,12 @@ def delete_word_list(db: Session, word_list_id: int):
 
 
 def get_word_info(db: Session, word_id: int):
-    spelltrain2AI = SpellTrain2AI()
+    hangmanAI = HangManAI()
 
     db_word = get_word_by_id(db, word_id)
     db_word_list = get_word_list_by_id(db, db_word.wordListId)
     topic = db_word_list.title
-    word_by_AI = spelltrain2AI.get_word_details(db_word.word, topic)
+    word_by_AI = hangmanAI.get_word_details(db_word.word, topic)
 
     db_word.definition = word_by_AI.definition
     db_word.rootOrigin = word_by_AI.rootOrigin

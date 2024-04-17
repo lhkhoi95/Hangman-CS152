@@ -1,4 +1,4 @@
-from api.utils.SpellTrainII_AI import SpellTrain2AI
+from api.utils.HangManAI import HangManAI
 
 
 def test_evaluate_input():
@@ -74,10 +74,10 @@ def test_evaluate_input():
     ]
 
     unmatched_results = []
-    spelltrain2AI = SpellTrain2AI()
+    hangmanAI = HangManAI()
 
     for input_topic, expected_output in test_cases:
-        evaluated_result = spelltrain2AI.evaluate_topic(input_topic)
+        evaluated_result = hangmanAI.evaluate_topic(input_topic)
         print('Topic: ', input_topic, ' --> ', 'Valid' if evaluated_result.isValid else 'Invalid',
               ' | ', 'Reason: ', evaluated_result.reason)
 

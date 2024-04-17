@@ -3,7 +3,7 @@
 - In the backend directory, create a .env file and insert these variables:
 - `OPENAI_API_KEY=sk-xxxx` ([from OpenAI](https://platform.openai.com/api-keys))
 - `GOOGLE_GEMINI_API_KEY=xxxx` ([from Google Gemini API](https://aistudio.google.com/app/apikey))
-- `SPELLTRAIN2_DATABASE_URL=sqlite:///./api/spelltrain2.db`
+- `HANGMAN_DB_URL=sqlite:///./api/hangman.db`
 - `SECRET_KEY=please-change-this-to-your-secret-key`
 - `ALGORITHM=HS256`
 - `ACCESS_TOKEN_EXPIRE_MINUTES=43200`
@@ -47,11 +47,11 @@ For example, await axios.get(`http://192.168.1.5:8000/`).then((res) => {console.
 
 Download & Install Docker: https://www.docker.com/products/docker-desktop/
 
-In the backend directory, run these commands (feel free to replace `spelltrain2` by other name if you prefer):
+In the backend directory, run these commands (feel free to replace `hangman` by other name if you prefer):
 
 (Important): make sure to have the .env file set up before running these commands (see the first instruction above).
 
-- `docker build -t spelltrain2 .`
-- `docker run -p 8000:8000 spelltrain2`
+- `docker build -t hangman .`
+- `docker run -p 8000:8000 hangman`
 
   The API endpoints UI should be accessible via [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).

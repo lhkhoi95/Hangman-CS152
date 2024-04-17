@@ -48,7 +48,7 @@ async def retrieve_games(word_list_id: int, db: Session = Depends(get_db)):
     db_words = validate_db_words(words)
 
     game_object = Game(words=db_words)
-    game_bank = game_object.generate_hangman_games()
+    game_bank = game_object.generate_hangman_games(route=route)
 
     # Create a new game model
     game_model = GameCreate(
@@ -127,7 +127,7 @@ async def retrieve_games_for_next_route(game_id: int, db: Session = Depends(get_
     db_words = validate_db_words(words)
 
     game_object = Game(words=db_words)
-    game_bank = game_object.generate_hangman_games()
+    game_bank = game_object.generate_hangman_games(route=route)
 
     # Create station models
     stations_models = []

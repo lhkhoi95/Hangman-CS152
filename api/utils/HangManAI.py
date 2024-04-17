@@ -8,7 +8,7 @@ from openai import OpenAI, OpenAIError
 from api.schemas.schemas import EvaluatedInput, EvaluatedTopic, WordInfo
 
 
-class SpellTrain2AI:
+class HangManAI:
     _NUMB_OF_WORDS = 30
     _RETRY_COUNT = 3
     _NUMB_OF_EXTRA_WORDS = 6
@@ -120,8 +120,10 @@ class SpellTrain2AI:
         ]
 
         if existing_words is not None:
+            longest_length = max([len(word) for word in existing_words])
             messages.append(
-                {'role': 'system', 'content': f'Do not repeat any words from the following list: {existing_words}'})
+                {'role': 'system', 'content': f'The length of the new words must be greater than {longest_length} characters. Do not repeat any words from the following list: {existing_words}. Make sure the spelling is correct.'}
+            )
 
         completion = client.chat.completions.create(
             model=model,

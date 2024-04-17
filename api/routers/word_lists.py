@@ -5,7 +5,7 @@ from typing import Annotated, List
 from api.crud import word_lists as crud
 from api.dependencies import get_db
 from api.schemas.schemas import WordList, Word
-from api.utils.SpellTrainII_AI import SpellTrain2AI
+from api.utils.HangManAI import HangManAI
 
 router = APIRouter(
     prefix="/word-lists",
@@ -16,10 +16,10 @@ router = APIRouter(
 @router.get("/", response_model=WordList)
 async def create_generative_word_list(topic: Annotated[str, Query(min_length=2)], db: Session = Depends(get_db)):
     sanitized_topic = re.sub(r'\s+', ' ', topic).strip().title()
-    spelltrain2AI = SpellTrain2AI()
+    hangmanAI = HangManAI()
 
     # If topic is invalid, raise an exception with the reason
-    evaluated_topic = spelltrain2AI.evaluate_topic(sanitized_topic)
+    evaluated_topic = hangmanAI.evaluate_topic(sanitized_topic)
     if not evaluated_topic.isValid:
         raise HTTPException(
             status_code=400, detail=evaluated_topic.reason)
