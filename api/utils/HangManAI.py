@@ -28,7 +28,7 @@ class HangManAI:
     def get_games(self, topic: str, difficulty: Difficulty) -> List[WordInfo]:
         client = self._openai_client()
 
-        user_prompt = f'Create a list of {self._NUMB_OF_WORDS} words related to the topic "{topic}" with difficulty level "{difficulty}". Provide a simple definition for each word.'
+        user_prompt = f'Create a list of {self._NUMB_OF_WORDS} words related to the topic "{topic}" with difficulty level "{difficulty}". Provide a simple definition for each word. Easy: 1-4 letter words, Medium: 4-7 letter words, Hard: 7+ letter words.'
 
         messages = [
             {'role': 'system', 'content': 'You are a helpful dictionary assistant designed to determine a list of words related to a topic.'},

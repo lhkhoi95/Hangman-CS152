@@ -13,5 +13,5 @@ router = APIRouter(
 
 
 @router.post("/")
-async def retrieve_games(topic: str, difficulty: Difficulty, db: Session = Depends(get_db)):
-    return get_games(db, topic, difficulty)
+async def retrieve_games(topic: str, difficulty: Difficulty):
+    return get_games(topic, difficulty)
